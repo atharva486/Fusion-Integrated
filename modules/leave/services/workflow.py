@@ -137,7 +137,8 @@ def _message_for(guard: str) -> str:
         "applicant_not_director": "A Director's own leave follows the self-sanction path.",
         "unit_head_final": "That decision belongs to the final sanctioning authority.",
         "higher_sanction": "This leave needs the full sanctioning path, not a Unit Head decision.",
-        "establishment_configured": "No Establishment step is configured, so this goes straight to the final authority.",
+        "establishment_configured": "No Establishment step is configured, so "
+                                     "this goes straight to the final authority.",
         "decision_approve": "Record an approval to complete this action.",
         "decision_reject": "Record a rejection to complete this action.",
         "pre_start": "This leave has already begun, so it can no longer be cancelled.",

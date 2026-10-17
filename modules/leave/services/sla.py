@@ -76,7 +76,7 @@ def _tell(task, topic: str, body: str) -> None:
         return
     notifications.notify(topic=topic, dedupe_key=f"{topic}:{task.pk}",
                          recipient_user_id=task.assignee_user_id,
-                         subject=f"{topic.split('.')[-1].title()} — leave request",
+                         subject=f"{topic.rsplit('.', maxsplit=1)[-1].title()} — leave request",
                          body=body, request=task.request)
 
 

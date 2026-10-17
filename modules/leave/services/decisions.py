@@ -74,11 +74,11 @@ def _in_my_lane(request: LeaveRequest, principal, *, stage: str) -> None:
 
 
 def _facts(request: LeaveRequest, **kw) -> Facts:
-    base = dict(kind=request.kind, category_code=request.category,
-                employee_kind=cat.STAFF,
-                roles=tuple(request.applicant_roles or ()),
-                establishment_configured=request.establishment_first,
-                substitute_required=bool(request.substitute_user_id))
+    base = {"kind": request.kind, "category_code": request.category,
+            "employee_kind": cat.STAFF,
+            "roles": tuple(request.applicant_roles or ()),
+            "establishment_configured": request.establishment_first,
+            "substitute_required": bool(request.substitute_user_id)}
     base.update(kw)
     return Facts(**base)
 

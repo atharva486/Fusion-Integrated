@@ -56,7 +56,7 @@ class LeaveRequestSerializer(serializers.ModelSerializer):
         ]
 
 
-class ApplySerializer(serializers.Serializer):
+class LeaveApplySerializer(serializers.Serializer):
     category = serializers.ChoiceField(choices=list(cat.CATEGORIES))
     from_date = serializers.DateField()
     to_date = serializers.DateField()
@@ -95,7 +95,7 @@ class RouteSerializer(serializers.Serializer):
                                     allow_blank=True)
 
 
-class WithdrawSerializer(serializers.Serializer):
+class LeaveWithdrawSerializer(serializers.Serializer):
     reason = serializers.CharField(max_length=300, required=False,
                                     allow_blank=True)
 

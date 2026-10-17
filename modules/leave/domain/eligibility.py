@@ -95,7 +95,7 @@ def validate(req: Request) -> Verdict:
             return Verdict(False, Decimal(0), (Outcome(
                 "half_day_single_date",
                 "A half-day request must be for a single date. "
-                f"Per BR-EL-010, CL first-half and second-half on the same date "
+                "Per BR-EL-010, CL first-half and second-half on the same date "
                 "are not overlapping when they occupy different halves."),))
 
     days = cat.leave_days(code=code, start=req.start, end=req.end,

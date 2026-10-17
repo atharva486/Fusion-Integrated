@@ -37,6 +37,10 @@ KIND_CHOICES = [
     (KIND_RESUMPTION, "Resumption of duty"),
 ]
 
+#: Category choices as (value, label) pairs — the domain module keeps codes and
+#: labels apart, and Django's `choices` needs them paired (fields.E005).
+CATEGORY_CHOICES = [(code, cat.LABELS[code]) for code in cat.CATEGORIES]
+
 #: Decisions recorded against a request, at whatever stage made them.
 DECISIONS = [
     ("approve", "Approve"),
@@ -140,7 +144,7 @@ class LeaveBalance(UserScopedModel):
     """
 
     year_label = models.CharField(max_length=9)
-    category = models.CharField(max_length=8, choices=cat.CATEGORIES)
+    category = models.CharField(max_length=8, choices=CATEGORY_CHOICES)
     opening = models.DecimalField(max_digits=6, decimal_places=2,
                                   default=Decimal("0"))
     credited = models.DecimalField(max_digits=6, decimal_places=2,
@@ -167,7 +171,7 @@ class LeaveBalance(UserScopedModel):
         return self.opening + self.credited - self.used
 
 
-class LeaveRequest(UserScopedModel):
+class LeaveRequest(UserScopedModel, TimeStampedModel):
     """A submitted leave-related request.
 
     One table for four kinds of request — new leave, extension, cancellation,
@@ -179,7 +183,7 @@ class LeaveRequest(UserScopedModel):
     """
 
     kind = models.CharField(max_length=12, choices=KIND_CHOICES, default=KIND_NEW)
-    category = models.CharField(max_length=8, choices=cat.CATEGORIES)
+    category = models.CharField(max_length=8, choices=CATEGORY_CHOICES)
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, default=DRAFT)
 
     from_date = models.DateField()
@@ -360,7 +364,7 @@ class LeaveTransaction(TimeStampedModel):
 
     user_id = models.IntegerField(db_index=True)
     year_label = models.CharField(max_length=9)
-    category = models.CharField(max_length=8, choices=cat.CATEGORIES)
+    category = models.CharField(max_length=8, choices=CATEGORY_CHOICES)
     kind = models.CharField(max_length=24, choices=KINDS)
     #: Signed: positive credits the account, negative consumes it.
     days = models.DecimalField(max_digits=6, decimal_places=2)

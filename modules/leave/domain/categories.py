@@ -120,7 +120,7 @@ def weekend_dates(start: date, end: date) -> set[date]:
     """Saturday and Sunday inside the interval, inclusive."""
     out, d = set(), start
     while d <= end:
-        if d.weekday() > 5:
+        if d.weekday() >= 5:
             out.add(d)
         d = date.fromordinal(d.toordinal() + 1)
     return out
@@ -151,9 +151,9 @@ class Interval:
         if self.end < other.start or other.end < self.start:
             return False
         same_day = (self.start == self.end == other.start == other.end)
-        if same_day and self.half and other.half and self.half == other.half:
-            return False
-        return True
+        different_cl_halves = bool(self.half and other.half
+                                   and self.half != other.half)
+        return not (same_day and different_cl_halves)
 
 
 def leave_days(*, code: str, start: date, end: date, half: str | None = None,
@@ -194,7 +194,7 @@ def year_end_action(code: str, available: Decimal, *,
         return YearEndAction("none", available)
     c = category(code)
     if code == VL:
-        return YearEndAction(CONVERT, available * Decimal(vl_per_el), target=EL)
+        return YearEndAction(CONVERT, available / Decimal(vl_per_el), target=EL)
     if c.carries_forward:
         return YearEndAction(CARRY_FORWARD, available)
     return YearEndAction(LAPSE, available)

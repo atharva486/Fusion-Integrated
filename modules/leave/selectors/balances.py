@@ -10,7 +10,6 @@ from decimal import Decimal
 from modules.leave.models import CalendarEntry, LeaveBalance, LeaveCalendar
 
 
-
 def balances(user_id: int, year_label: str):
     return (LeaveBalance.objects
             .filter(user_id=user_id, year_label=year_label)

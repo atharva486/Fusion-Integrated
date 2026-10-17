@@ -17,8 +17,8 @@ from dataclasses import dataclass
 from modules.leave.domain import categories as cat
 from modules.leave.domain import routing
 from modules.leave.domain.state_machine import (
-    GuardFailed,
     KIND_NEW,
+    GuardFailed,
     outgoing,
 )
 

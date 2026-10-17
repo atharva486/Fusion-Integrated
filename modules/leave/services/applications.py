@@ -238,12 +238,12 @@ def nominate_replacement(*, principal, request_id: int,
             "A replacement can only be nominated after a decline.",
             code="not_awaiting_replacement")
 
-    verdict = _validate(principal=principal,
-                        category_code=request.category,
-                        start=request.from_date, end=request.to_date,
-                        half=request.half or None,
-                        substitute_user_id=substitute_user_id,
-                        substitute_required=True, policy=policy)
+    _validate(principal=principal,
+              category_code=request.category,
+              start=request.from_date, end=request.to_date,
+              half=request.half or None,
+              substitute_user_id=substitute_user_id,
+              substitute_required=True, policy=policy)
     request.substitute_user_id = substitute_user_id
     request.substitute_response = ""
     request.save(update_fields=["substitute_user_id", "substitute_response",

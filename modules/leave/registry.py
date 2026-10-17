@@ -75,6 +75,7 @@ _EMPLOYEE = [
     "leave.application.cancel",
     "leave.application.extend",
     "leave.substitute.respond",
+    "leave.substitute.nominate",
     "leave.resumption.submit",
     "leave.balance.view",
 ]

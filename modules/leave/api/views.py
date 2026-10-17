@@ -24,11 +24,13 @@ from modules.leave.selectors import leave as leave_selectors
 from modules.leave.services import (
     accounts,
     applications,
-    calendar as calendar_service,
     decisions,
     offline,
     sla,
     year_end,
+)
+from modules.leave.services import (
+    calendar as calendar_service,
 )
 
 MODULE = HasModuleGrant("leave")
@@ -76,11 +78,11 @@ class MyRequestsView(APIView):
         rows = leave_selectors.my_requests(_actor(request), kind=kind)
         return Response(_page(s.LeaveRequestSerializer, rows))
 
-    @extend_schema(request=s.ApplySerializer,
+    @extend_schema(request=s.LeaveApplySerializer,
                    responses={201: s.LeaveRequestSerializer},
                    summary="Apply for leave")
     def post(self, request):
-        payload = s.ApplySerializer(data=request.data)
+        payload = s.LeaveApplySerializer(data=request.data)
         payload.is_valid(raise_exception=True)
         data = payload.validated_data
         row = applications.apply(
@@ -144,11 +146,11 @@ class WithdrawView(APIView):
 
     permission_classes = [MODULE, HasPermission(P_WITHDRAW)]
 
-    @extend_schema(request=s.WithdrawSerializer,
+    @extend_schema(request=s.LeaveWithdrawSerializer,
                    responses=s.LeaveRequestSerializer,
                    summary="Withdraw a pending request")
     def post(self, request, pk):
-        payload = s.WithdrawSerializer(data=request.data)
+        payload = s.LeaveWithdrawSerializer(data=request.data)
         payload.is_valid(raise_exception=True)
         row = applications.withdraw(
             principal=_actor(request), request_id=pk,

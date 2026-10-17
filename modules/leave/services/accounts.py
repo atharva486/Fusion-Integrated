@@ -65,7 +65,7 @@ def credit_annual(*, user_id: int, year_label: str, employee_kind: str,
         days = cat.annual_credit(code, employee_kind)
         if not days:
             continue
-        row = open_account(user_id=user_id, year_label=year_label, category=code)
+        open_account(user_id=user_id, year_label=year_label, category=code)
         if LeaveTransaction.objects.filter(
                 user_id=user_id, year_label=year_label, category=code,
                 kind="annual_credit").exists():

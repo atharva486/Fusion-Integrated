@@ -17,7 +17,6 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
-from decimal import Decimal
 
 from modules.leave.domain import categories as cat
 from modules.leave.models import LeaveBalance, LeavePolicy
@@ -54,7 +53,7 @@ def run(*, policy: LeavePolicy, dry_run: bool = False) -> YearEndReport:
         try:
             _close_one(user_id=user_id, closing=closing, opening=opening,
                        policy=policy, report=report, dry_run=dry_run)
-        except Exception as exc:                      # noqa: BLE001
+        except Exception as exc:
             # One broken account is reported, not raised: the boundary has to
             # happen for everybody else.
             report.exceptions.append(f"{user_id}: {exc}")
